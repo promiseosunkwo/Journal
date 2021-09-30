@@ -1,0 +1,42 @@
+{% extends 'dashboard/mute_base.html' %}
+{% load crispy_forms_tags %}
+
+
+
+
+{% block content %}
+
+{% for message in messages%}
+
+<div class="alert alert-info col-lg-8" role="alert">
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+{{message}}
+</div>
+
+{% endfor %}
+<h5>Complete your profile to Continue to other pages</h5>
+
+
+
+
+<form action="" method="POST">
+    {% csrf_token %}
+
+
+    <div class="col-lg-4">
+      
+    {{form|crispy}}
+    <!-- {{request.user.id}} -->
+
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary text-white">Submit</button>
+    </div>
+    </div>
+
+</form>
+
+
+
+{% endblock content%}

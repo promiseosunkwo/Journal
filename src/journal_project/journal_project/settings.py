@@ -24,7 +24,10 @@ SECRET_KEY = 'django-insecure-8hx=p-o5@5j9q4igu!8t2w4#%&lmc(upkrga@&vr*-$s3_2-o7
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+    
 ALLOWED_HOSTS = []
 
 
@@ -40,7 +43,10 @@ INSTALLED_APPS = [
 
     # personal
     'journal_app',
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -115,6 +121,20 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+
+# EMAIL CONFIG
+
+import os
+EMAIL_HOST=os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS=os.environ.get('EMAIL_USE_TLS')
+EMAIL_PORT=os.environ.get('EMAIL_PORT')
+
+
+
 
 
 # Static files (CSS, JavaScript, Images)
