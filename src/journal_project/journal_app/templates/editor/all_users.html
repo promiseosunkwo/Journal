@@ -1,0 +1,67 @@
+{% extends 'editor/base.html' %}
+
+{% block content %}
+
+
+
+<div class="row">
+<div class="col-lg-8">
+  <h4>All Users</h4>
+
+    <!-- <div class="container" >
+    <div class="example-basic"> -->
+    {% for message in messages %}
+    <div class="alert alert-info" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+      {{message}}
+    </div>
+    {% endfor %}
+
+<div class="table-responsive">
+<table id="display_script" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th class="th-sm">Username</th>
+        <th class="th-sm">Full Name</th>
+        <th class="th-sm">Email</th>
+        <th class="th-sm">Date Joined</th>
+        <!-- <th class="th-sm">Scripts</th> -->
+        <th class="th-sm">Disable</th>
+        <th class="th-sm">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- {{manuscriptform.count}} -->
+      
+      {% for user in users %}
+      <tr>
+      <td>{{user.username}}</td>
+      <td>{{user.first_name}} {{user.last_name}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.date_joined}}</td>
+      <!-- <td></td> -->
+
+      <td>
+        <form action="{% url 'disable' user.pk %}" method="POST">{% csrf_token %}
+        <button type="submit" style="border: none;" onclick="return confirm('This action will disable or enable this User?')"><i style="color:rgba(238, 34, 34, 0.884);" class="fa fa-exclamation-triangle fa-lg"></i></button>
+      </form>
+      </td>
+
+      <td>
+        <form action="{% url 'delete_user' user.pk %}" method="POST">{% csrf_token %}
+        <button type="submit" style="border: none;" onclick="return confirm('Are you sure you want to delete this User? This action can not be undone')"><i style="color:rgba(238, 34, 34, 0.884);" class="fa fa-trash fa-lg"></i></button>
+        </form>
+      </td>
+      </tr>
+      {% endfor %}
+
+  
+</table>
+</div>
+</div>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,7 @@
+{% extends 'editor/base.html' %}
+
+{% block content %}
+{% for journal in journals %}
+{{ journal.title }}
+{% endfor %}
+{% endblock content %}

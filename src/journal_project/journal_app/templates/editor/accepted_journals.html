@@ -1,0 +1,77 @@
+{% extends 'editor/base.html' %}
+
+{% block content %}
+
+<div class="row">
+<div class="col-lg-8">
+  <h4>Accepted Journals</h4>
+
+    <!-- <div class="container" >
+    <div class="example-basic"> -->
+    {% for message in messages %}
+    <div class="alert alert-info" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+      {{message}}
+    </div>
+    {% endfor %}
+
+<div class="table-responsive">
+<table id="display_script" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th class="th-sm">Title</th>
+        <th class="th-sm">Journal</th>
+        <th class="th-sm">Date Submitted</th>
+        <th class="th-sm">Status</th>
+        <th class="th-sm">Author</th>
+        <th class="th-sm">View</th>
+        <th class="th-sm">Publish</th>
+        <th class="th-sm">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- {{manuscriptform.count}} -->
+      {% for accept in accepted %}
+      
+      <tr>
+      <td>{{accept.title}}</td>
+      <td>{{accept.journal}}</td>
+      <td>{{accept.date_added}}</td>
+      <td>{{accept.status}}</td>
+      <td>{{accept.author}}</td>
+      <td>
+        <a href="{% url 'full_details' accept.rand %}"><i style="color:rgba(238, 34, 34, 0.884);" class="fa fa-eye fa-lg"></i></a>
+      </td>
+      
+            <!-- <td>
+              <a href="{% url 'publish' accept.rand %}"><i style="color:rgba(121, 221, 70, 0.884);" class="fa fa-check fa-lg"></i></a>
+            </td> -->
+         
+            <td>
+              <a href="{% url 'publish' accept.rand %}"><i style="color:rgba(238, 34, 34, 0.884);" class="fa fa-upload fa-lg"></i></a>
+            </td>
+        
+      <td>
+        <form action="{% url 'delete_script' accept.rand %}" method="POST">{% csrf_token %}
+        <button type="submit" style="border: none;" onclick="return confirm('Are you sure you want to delete this manuscript?')"><i style="color:rgba(238, 34, 34, 0.884);" class="fa fa-trash fa-lg"></i></button>
+        </form>
+      </td>
+      </tr>
+
+      {% endfor %}
+
+</table>
+</div>
+</div>
+</div>
+
+
+<script>
+  $(document).ready(function(){
+  $('#display_script').DataTable();
+  });
+  </script>
+
+{% endblock content %}

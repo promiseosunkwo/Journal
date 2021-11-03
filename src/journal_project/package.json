@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "bootstrap-validate": "^2.2.4"
+  }
+}

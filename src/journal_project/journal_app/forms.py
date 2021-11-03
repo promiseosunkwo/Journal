@@ -4,7 +4,9 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Author, my_user
+from django.forms.models import inlineformset_factory
+from .models import Author, Manuscript, my_user, CoauthorList, Uploads,CoAuthors,publish
+from django.forms import modelformset_factory
 # from .models import User
 
 
@@ -37,5 +39,66 @@ class my_userForm(forms.ModelForm):
         model = my_user
         fields = '__all__'
         # exclude = ['user']
+#  message = forms.CharField(widget=forms.Textarea)
+
 
  
+class ManuscriptForm(forms.ModelForm):
+    class Meta:
+        model = Manuscript
+        fields = '__all__'
+        exclude = ('author','date_added','rand','status','published_status')
+
+class ManuscriptFormEditor(forms.ModelForm):
+    class Meta:
+        model = Manuscript
+        fields = '__all__'
+        exclude = ('author','date_added','rand','published_status')
+       
+
+# this table is to get the main author of inline form associated with submitting a manuscript
+class CoauthorListAuthor(forms.ModelForm):
+        class Meta:
+                model = CoauthorList
+                fields = ('__all__')
+
+
+# this table is to get the co author in an inline format when submitting a manuscript
+class CoauthorListForm(forms.ModelForm):
+    class Meta:
+        model = CoAuthors
+        fields = ( "email","firstname","lastname","correspondingauthor","country","affiliation")
+        # exclude = ('rand',)
+
+
+# this table is the form factory inline format
+CoauthorFormset = inlineformset_factory(
+    CoauthorList,
+    CoAuthors,
+    CoauthorListForm,
+    extra=0,
+    can_delete = True
+    # min_num=1
+
+)
+
+
+
+
+class UploadsForm(forms.ModelForm):
+    class Meta:
+        model = Uploads
+        fields = '__all__'
+        exclude = ('author','date_added','rand')
+        # exclude = []
+
+class publishForm(forms.ModelForm):
+    class Meta:
+        model = publish
+        fields = '__all__'
+        exclude = ('published_status','rand','date_published')
+        # exclude = []
+
+# coauthor_formset = modelformset_factory(
+#     CoAuthors, fields=("email", "firstname","lastname","correspondingauthor", "country", "affiliation"), extra=0
+#     ) 

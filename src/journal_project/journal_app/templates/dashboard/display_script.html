@@ -1,0 +1,75 @@
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+
+
+
+
+{% block content %}
+<!------ Datatables ---------->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css" />
+<script type="text/javascript" src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"/>
+<!------end Datatables ---------->
+
+
+<div class="row">
+<div class="col-lg-8">
+
+
+    <!-- <div class="container" >
+    <div class="example-basic"> -->
+    {% for message in messages %}
+    <div class="alert alert-info" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+      {{message}}
+    </div>
+    {% endfor %}
+
+
+<table id="display_script" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th class="th-sm">Journal</th>
+        <th class="th-sm">Title</th>
+        <th class="th-sm">Special Issue</th>
+        <th class="th-sm">Submit date</th>
+        <th class="th-sm">Status</th>
+        <th class="th-sm">Edit</th>
+        <th class="th-sm">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- {{manuscriptform.count}} -->
+      {% for form in manuscriptform %}
+      
+      <tr>
+      <td>{{form.journal}}</td>
+      <td>{{form}}</td>
+      <td>{{form.specialissue}}</td>
+      <td>{{form.date_added}}</td>
+      <td style="color:rgb(182, 131, 35)">{{form.status}}</td>
+      <td>
+        <a href="{% url 'edit_script' form.rand %}"><i style="color:rgba(22, 196, 240, 0.801)" class="fa fa-pencil fa-lg"></i></a></td>
+        <td>
+        <form action="{% url 'delete_script' form.rand %}" method="POST">{% csrf_token %}
+        <button type="submit" style="border: none;" onclick="return confirm('Are you sure you want to delete this manuscript?')"><i style="color:rgba(238, 34, 34, 0.884);" class="fa fa-trash fa-lg"></i></button>
+        </form>
+      </td>
+      </tr>
+
+      {% endfor %}
+
+  </table>
+</div>
+</div>
+<!-- datatables -->
+<script>
+  $(document).ready(function(){
+  $('#display_script').DataTable();
+  });
+  </script>
+  <!--end datatables --> 
+{% endblock content %}

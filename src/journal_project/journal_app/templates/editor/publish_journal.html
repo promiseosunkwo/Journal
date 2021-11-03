@@ -1,0 +1,28 @@
+{% extends 'editor/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-8">
+        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    {{manuscriptform|crispy}}
+            </div>
+            <div class="col-lg-4">
+                {{publish_form|crispy}}
+                <button type="submit" onclick="return confirm('This Journal will be Published on the Front page?')" class="btn btn-primary">Publish</button>
+        </div>
+            </div>
+        </div>
+             
+           
+            
+        </form> 
+    </div>
+</div>
+
+
+
+{% endblock content %}

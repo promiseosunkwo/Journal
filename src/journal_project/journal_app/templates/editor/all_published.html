@@ -1,0 +1,68 @@
+{% extends 'editor/base.html' %}
+{% load crispy_forms_tags %}
+
+
+
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+      <h4>All Published Journals</h4>
+        {% for message in messages %}
+        <div class="alert alert-info" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+          {{message}}
+        </div>
+        {% endfor %}
+    
+    <div class="table-responsive">
+    <table id="display_script" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th class="th-sm">Title</th>
+            <th class="th-sm">Journal</th>
+            <th class="th-sm">Published Year</th>
+            <th class="th-sm">Published Volume</th>
+            <th class="th-sm">Published Issue</th>
+            <th class="th-sm">Author</th>
+            <th class="th-sm">script rand</th>
+            <th class="th-sm">Publish rand</th>
+            <th class="th-sm">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- {{manuscriptform.count}} -->
+          {% for publish,manuscript in objects_list %}
+          <tr>
+          <td>{{manuscript.title}}</td>
+          <td>{{manuscript.journal}}</td>
+          <td>{{publish.published_year}}</td>
+          <td>{{publish.published_volume}}</td>
+          <td>{{publish.published_issue}}</td>
+          <td>{{manuscript.author}}</td>
+          <td>{{manuscript.rand}}</td>
+          <td>{{publish.rand}}</td>
+            
+          <td>
+            <form action="#" method="POST">{% csrf_token %}
+            <button type="submit" style="border: none;" onclick="return confirm('Are you sure you want to delete this manuscript?')"><i style="color:rgba(238, 34, 34, 0.884);" class="fa fa-trash fa-lg"></i></button>
+            </form>
+          </td>
+          </tr>
+          {% endfor %}
+    
+    </table>
+    </div>
+    </div>
+    </div>
+    
+    
+    <script>
+      $(document).ready(function(){
+      $('#display_script').DataTable();
+      });
+      </script>
+    
+    {% endblock content %}

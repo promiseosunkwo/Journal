@@ -4,6 +4,20 @@
 {% block content %}
 
 
+<!-- searchbar css only -->
+<style>
+
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+</style>
+
 
 
 <!-- Carousel wrapper -->
@@ -12,6 +26,8 @@ id="carouselBasicExample"
 class="carousel slide carousel-fade"
 data-mdb-ride="carousel"
 >
+
+
 <!-- Indicators -->
 <div class="carousel-indicators">
 <button
@@ -36,48 +52,57 @@ aria-label="Slide 3"
 ></button>
 </div>
 
+
+
+
 <!-- Inner -->
 <div class="carousel-inner">
+
+
 <!-- Single item -->
 <div class="carousel-item active">
 <img
-src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg"
+src="{{frontpage_sliders.slider1.url}}"
 class="d-block w-100"
 alt="..."
 />
-<div class="carousel-caption d-none d-md-block">
+<!-- <div class="carousel-caption d-none d-md-block">
 <h5>First slide label</h5>
 <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-</div>
+</div> -->
 </div>
 
 <!-- Single item -->
 <div class="carousel-item">
 <img
-src="https://mdbootstrap.com/img/Photos/Slides/img%20(22).jpg"
+src="{{frontpage_sliders.slider2.url}}"
 class="d-block w-100"
 alt="..."
 />
-<div class="carousel-caption d-none d-md-block">
+<!-- <div class="carousel-caption d-none d-md-block">
 <h5>Second slide label</h5>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-</div>
+</div> -->
 </div>
 
 <!-- Single item -->
 <div class="carousel-item">
 <img
-src="https://mdbootstrap.com/img/Photos/Slides/img%20(23).jpg"
+src="{{frontpage_sliders.slider3.url}}"
 class="d-block w-100"
 alt="..."
 />
-<div class="carousel-caption d-none d-md-block">
+<!-- <div class="carousel-caption d-none d-md-block">
 <h5>Third slide label</h5>
 <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
 </div>
+</div> -->
 </div>
-</div>
+
+
+
 <!-- Inner -->
+
 
 <!-- Controls -->
 <button
@@ -99,8 +124,34 @@ data-mdb-slide="next"
 <span class="visually-hidden">Next</span>
 </button>
 </div>
+</div>
 <!-- Carousel wrapper -->
 
+
+<div class="container">
+<br/>
+<div class="row justify-content-center">
+<div class="col-12 col-md-10 col-lg-8">
+<form class="card card-sm">
+<div class="card-body row no-gutters align-items-center">
+<div class="col-auto">
+<i class="fas fa-search h4 text-body"></i>
+</div>
+<!--end of col-->
+<div class="col">
+<input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords">
+</div>
+<!--end of col-->
+<div class="col-auto">
+<button class="btn btn-lg btn-success" type="submit">Search</button>
+</div>
+<!--end of col-->
+</div>
+</form>
+</div>
+<!--end of col-->
+</div>
+</div>
 
 
 <div class="container">
@@ -109,111 +160,42 @@ data-mdb-slide="next"
 
 
 <div class="row">
-  <h4 class="d-flex justify-content-between align-items-center mb-3 mt-4">Special Issues</h4>
+  <h4 class="d-flex justify-content-between align-items-center mb-3 mt-4">Research Articles</h4>
+
+  {% for publish,manuscript in objects_list|slice:":6" %}
   <div class="col-lg-6 col-md-6 mb-4">
-  <div class="card">
+  <div class="card h-100">
   <!--image -->
   <div class="card-body">
-  <h6>Research Article</h6>
-  <h6 class="card-title" style="color:darkkhaki; text-align: justify;">PPGIS applied to environmental communication and hazards for a community-based approach: a dualism in the Southern Italy "calanchi" landscape</h6>
+  <h6>{{manuscript.articletype}}</h6>
+  <h6 class="card-title" style="color:darkkhaki; text-align: justify;">{{manuscript.title}}</h6>
   <p class="card-text" style="text-align: justify;">
-  <span style="font-weight: 300;">Prof. Adnre Aligino</span> <br>
-  <span style="color: lightsalmon;">AIMS Materials Science</span> 2021, 8(5): 685-697.<br>
-  doi: <span style="color: lightsalmon;">10.3934/matersci.2021041</span> 
+  <span style="font-weight: 300;">{{manuscript.author}}</span> <br>
+  <span style="color: lightsalmon;">{{manuscript.journal}}</span> {{publish.published_year}}, {{publish.published_volume}}({{publish.published_issue}}): {{publish.published_page_start}}-{{publish.published_page_end}}.<br>
+  doi: <span style="color: lightsalmon;">10.3934/matersci.{{publish.rand}}</span> 
   </p>
   
   <div class="d-flex d-inline-block">
   <div class="col-sm-12">
-  <a class="mr-4" style="text-decoration: none;" href=""><i class="fas fa-file-pdf fa-lg" style="color:rgba(189, 63, 63, 0.849);"></i><span class="text-dark"> PDF</span></a> 
-  <a class="mr-4" style="text-decoration: none;" href=""><i class="fas fa-file-invoice fa-lg" style="color:darkkhaki;"> </i><span class="text-dark"> Abstrast</span></a> 
-  <a href="" style="text-decoration: none;"><i class="fas fa-file-alt fa-lg" style="color: lightsalmon;"></i><span class="text-dark"> Html</span></a> 
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-
+  <a class="mr-4" style="text-decoration: none;" href="{% url 'article' publish.rand  %}"><i class="fas fa-file-pdf fa-lg" style="color:rgba(189, 63, 63, 0.849);"></i><span class="text-dark"> PDF</span></a> 
+  <a class="mr-4" style="text-decoration: none;" href="{% url 'article' publish.rand  %}"><i class="fas fa-file-invoice fa-lg" style="color:darkkhaki;"> </i><span class="text-dark"> Abstrast</span></a> 
+  <a href="{% url 'article' publish.rand  %}" style="text-decoration: none;"><i class="fas fa-file-alt fa-lg" style="color: lightsalmon;"></i><span class="text-dark"> Html</span></a> 
   
-  <div class="col-lg-6 col-md-6 mb-4">
-    <div class="card"> 
-    <!--image -->
-    <div class="card-body">
-    <h6>Research Article</h6>
-    <h6 class="card-title" style="color:darkkhaki; text-align: justify;">PPGIS applied to environmental communication and hazards for a community-based approach: a dualism in the Southern Italy "calanchi" landscape</h6>
-    <p class="card-text" style="text-align: justify;">
-    <span style="font-weight: 300;">Prof. Adnre Aligino</span> <br>
-    <span style="color: lightsalmon;">AIMS Materials Science</span> 2021, 8(5): 685-697.<br>
-    doi: <span style="color: lightsalmon;">10.3934/matersci.2021041</span> 
-    </p>
-    
-    <div class="d-flex d-inline-block">
-    <div class="col-sm-12">
-    <a class="mr-4" style="text-decoration: none;" href=""><i class="fas fa-file-pdf fa-lg" style="color:rgba(189, 63, 63, 0.849);"></i><span class="text-dark"> PDF</span></a> 
-    <a class="mr-4" style="text-decoration: none;" href=""><i class="fas fa-file-invoice fa-lg" style="color:darkkhaki;"> </i><span class="text-dark"> Abstrast</span></a> 
-    <a href="" style="text-decoration: none;"><i class="fas fa-file-alt fa-lg" style="color: lightsalmon;"></i><span class="text-dark"> Html</span></a> 
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
+</div>
+  </div>
+  </div>
+  </div>
+  </div>
+{% endfor %}
 
-
-    <div class="col-lg-6 col-md-6 mb-4">
-      <div class="card">
-      <!--image -->
-      <div class="card-body">
-      <h6>Research Article</h6>
-      <h6 class="card-title" style="color:darkkhaki; text-align: justify;">PPGIS applied to environmental communication and hazards for a community-based approach: a dualism in the Southern Italy "calanchi" landscape</h6>
-      <p class="card-text" style="text-align: justify;">
-      <span style="font-weight: 300;">Prof. Adnre Aligino</span> <br>
-      <span style="color: lightsalmon;">AIMS Materials Science</span> 2021, 8(5): 685-697.<br>
-      doi: <span style="color: lightsalmon;">10.3934/matersci.2021041</span> 
-      </p>
-      
-      <div class="d-flex d-inline-block">
-      <div class="col-sm-12">
-      <a class="mr-4" style="text-decoration: none;" href=""><i class="fas fa-file-pdf fa-lg" style="color:rgba(189, 63, 63, 0.849);"></i><span class="text-dark"> PDF</span></a> 
-      <a class="mr-4" style="text-decoration: none;" href=""><i class="fas fa-file-invoice fa-lg" style="color:darkkhaki;"> </i><span class="text-dark"> Abstrast</span></a> 
-      <a href="" style="text-decoration: none;"><i class="fas fa-file-alt fa-lg" style="color: lightsalmon;"></i><span class="text-dark"> Html</span></a> 
-      </div>
-      </div>
-      </div>
-      </div>
-      </div>
-    
-      
-      <div class="col-lg-6 col-md-6 mb-4">
-        <div class="card">
-        <!--image -->
-        <div class="card-body">
-        <h6>Research Article</h6>
-        <h6 class="card-title" style="color:darkkhaki; text-align: justify;">PPGIS applied to environmental communication and hazards for a community-based approach: a dualism in the Southern Italy "calanchi" landscape</h6>
-        <p class="card-text" style="text-align: justify;">
-        <span style="font-weight: 300;">Prof. Adnre Aligino</span> <br>
-        <span style="color: lightsalmon;">AIMS Materials Science</span> 2021, 8(5): 685-697.<br>
-        doi: <span style="color: lightsalmon;">10.3934/matersci.2021041</span> 
-        </p>
-        
-        <div class="d-flex d-inline-block">
-        <div class="col-sm-12">
-        <a class="mr-4" style="text-decoration: none;" href=""><i class="fas fa-file-pdf fa-lg" style="color:rgba(189, 63, 63, 0.849);"></i><span class="text-dark"> PDF</span></a> 
-        <a class="mr-4" style="text-decoration: none;" href=""><i class="fas fa-file-invoice fa-lg" style="color:darkkhaki;"> </i><span class="text-dark"> Abstrast</span></a> 
-        <a href="" style="text-decoration: none;"><i class="fas fa-file-alt fa-lg" style="color: lightsalmon;"></i><span class="text-dark"> Html</span></a> 
-        </div>
-        </div>
-        </div>
-        </div>
-        </div>
-
-
-
+<a href="{% url 'all' %}" class="btn btn-primary">More Articles</a>
 
 
 
 <!-- from where i put the other article types -->
 
 
-  <h4 class="d-flex justify-content-between align-items-center mb-3 mt-4">Latest Article</h4>
+  <!-- <h4 class="d-flex justify-content-between align-items-center mb-3 mt-4">Latest Article</h4>
   <div class="col-lg-6 col-md-6 mb-4">
   <div class="card">
   <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
@@ -267,7 +249,7 @@ data-mdb-slide="next"
     </div>
     </div>
     </div>
-    </div>
+    </div> -->
     <!--end of  from where i put the other article types -->
   
   </div>
@@ -297,32 +279,23 @@ data-mdb-slide="next"
    <!-- sidebar Heading -->
    <h4 class="d-flex justify-content-between align-items-center mb-3 mt-4">
     <span class="text-muted">Journals</span>
-    <span class="badge badge-secondary badge-pill">3</span>
+    <span class="badge badge-secondary badge-pill">{{journal_count}}</span>
     </h4>
     
     <!-- sidebar -->
+
     <ul class="list-group mb-3 z-depth-1 border">
+    {% for journal in journals %}
+    <a href="{% url 'journal' journal.id %}">
     <li class="list-group-item d-flex justify-content-between lh-condensed">
     <div>
-    <h6 class="my-0">Mathematical Biosciences and Engineering</h6>
+    <h6 class="my-0">{{journal.title}}</h6>
     <!-- <small class="text-muted">Brief description</small> -->
     </div>
-    <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" class="img-fluid rounded"  style="width: 10%;"/>
+    <img src="{{journal.image.url}}" class="img-fluid rounded"  style="width: 10%;"/>
     </li>
-    <li class="list-group-item d-flex justify-content-between lh-condensed">
-    <div>
-    <h6 class="my-0">Mathemathics in Engineering</h6>
-    <!-- <small class="text-muted">Brief description</small> -->
-    </div>
-    <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" class="img-fluid rounded"  style="width: 10%;"/>
-    </li>
-    <li class="list-group-item d-flex justify-content-between lh-condensed">
-    <div>
-    <h6 class="my-0">Journal Publications</h6>
-    <!-- <small class="text-muted">Brief description</small> -->
-    </div>
-    <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" class="img-fluid rounded"  style="width: 10%;"/>
-    </li>
+    </a>
+    {% endfor %}
     
     </ul>
         <!-- sidebar -->
@@ -331,39 +304,26 @@ data-mdb-slide="next"
     
       <!-- sidebar Heading 2 -->
       <h4 class="d-flex justify-content-between align-items-center mt-5">
-        <span class="text-muted">Top Publications</span>
+        <span class="text-muted">Recent Publications</span>
         <span class="badge badge-secondary badge-pill">3</span>
         </h4>
         
         <!-- sidebar -->
         <ul class="list-group mb-3 z-depth-1 border">
+          {% for script in recent_manuscript %}
         <li class="list-group-item d-flex justify-content-between lh-condensed">
         <div>
-        <h6 class="my-0">Mathematical Biosciences and Engineering</h6>
+        <h6 class="my-0"><a href="{% url 'article' script.rand  %}" style="text-decoration: none; color:black;">{{script.title}}</a></h6>
         <!-- <small class="text-muted">Brief description</small> -->
         </div>
-        <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" class="img-fluid rounded"  style="width: 10%;"/>
+        <!-- <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" class="img-fluid rounded"  style="width: 10%;"/> -->
         </li>
-        <li class="list-group-item d-flex justify-content-between lh-condensed">
-        <div>
-        <h6 class="my-0">Mathemathics in Engineering</h6>
-        <!-- <small class="text-muted">Brief description</small> -->
-        </div>
-        <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" class="img-fluid rounded"  style="width: 10%;"/>
-        </li>
-        <li class="list-group-item d-flex justify-content-between lh-condensed">
-        <div>
-        <h6 class="my-0">Journal Publications</h6>
-        <!-- <small class="text-muted">Brief description</small> -->
-        </div>
-        <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" class="img-fluid rounded"  style="width: 10%;"/>
-        </li>
-        
+        {% endfor %}
         </ul>
                 <!-- sidebar -->
 
 
-
+                
 </div> <!--  col lg 4 -->
 
 
